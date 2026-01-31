@@ -2,7 +2,7 @@ const { ServerApiVersion, MongoClient } = require("mongodb");
 
 const uri = process.env.MONGO_URI;
 const dbName = process.env.DBNAME;
-const collection = {
+export const collections = {
     TOYS:"toys",
 }
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version

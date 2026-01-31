@@ -4,14 +4,13 @@ import { FaStar } from "react-icons/fa";
 import ProductSkeletons from "../skeletons/ProductSkeletons";
 import Link from "next/link";
 
-const ProductCard = ({ product, loading = false }) => {
-  if (loading) {
-    return <ProductSkeletons></ProductSkeletons>
-  }
+const ProductCard = ({ product}) => {
+
   const discountedPrice =
     product.price - (product.price * product.discount) / 100;
   return (
     <div className="card w-full bg-base-100 shadow-xl">
+      {!product && <ProductSkeletons></ProductSkeletons>}
       <figure className="relative h-48">
         <img
           src={product.image}

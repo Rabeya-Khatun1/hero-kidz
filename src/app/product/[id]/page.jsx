@@ -1,7 +1,41 @@
-
 import { getSingleProducts } from "@/api/product/[id]/route";
-import { notFound } from "next/navigation";
+import ProductDetailsSkeleton from "@/app/components/skeletons/ProductsDetailsSkeletons";
 import React from "react";
+
+export async function generateMetadata({ params }) {
+
+  const {id} = await params;
+  const product= await getSingleProducts(id);
+  return {
+
+    title: product.title,
+    description:
+    product.description.slice(0,160) ||
+      "View product details, pricing, and offers. Designed for a smooth shopping experience.",
+
+    openGraph: {
+      title: product.title,
+      description:
+        "Check out this product with full details and latest price.",
+      images: [
+        {
+          url: "https://ibb.co.com/Ld732ZYq/image.png",
+          width: 1200,
+          height: 630,
+          alt: "Product Page Preview",
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title:product.title,
+      description: "Fun and educational learning toy for kids.",
+      images: [product.image || "https://ibb.co.com/Ld732ZYq/image.png"],
+    },
+  };
+}
+
 
 const ProductsDetails = async ({ params }) => {
 const {id} = await params;
@@ -14,7 +48,7 @@ const {id} = await params;
 
   return (
     <div className=" mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-      
+      {!product && <ProductDetailsSkeleton></ProductDetailsSkeleton>}
    
 <div className="flex flex-col">
      {/* Image */}

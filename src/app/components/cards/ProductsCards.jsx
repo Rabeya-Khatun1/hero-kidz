@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import ProductSkeletons from "../skeletons/ProductSkeletons";
 import Link from "next/link";
+import AddToCart from "../cartButtons/AddToCart";
 
 const ProductCard = ({ product}) => {
 
@@ -62,9 +63,7 @@ const ProductCard = ({ product}) => {
           </Link>
         </div>
         <div className="card-actions mt-4">
-          <button className="btn btn-primary w-full">
-            Add to Cart
-          </button>
+         <AddToCart></AddToCart>
         </div>
       </div>
     </div>

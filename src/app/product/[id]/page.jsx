@@ -1,4 +1,5 @@
 import { getSingleProducts } from "@/api/product/[id]/route";
+import AddToCart from "@/app/components/cartButtons/AddToCart";
 import ProductDetailsSkeleton from "@/app/components/skeletons/ProductsDetailsSkeletons";
 import React from "react";
 
@@ -101,9 +102,7 @@ const {id} = await params;
           ))}
         </ul>
 
-        <button className="btn btn-primary w-full mt-4">
-          Add to Cart
-        </button>
+       <AddToCart></AddToCart>
       </div>
 
 </div>

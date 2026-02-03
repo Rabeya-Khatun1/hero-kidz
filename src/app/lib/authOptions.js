@@ -1,4 +1,4 @@
-import GithubProvider from "next-auth/providers/github"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 
 export const authOptions = {
@@ -11,6 +11,9 @@ export const authOptions = {
     password:{label: "Password", type: "password", placeholder: "****"}
   },
   async authorize(credentials, req){
+
+    console.log(credentials)
+
     return null
   }
 })

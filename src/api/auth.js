@@ -12,7 +12,9 @@ if(!email || !password)    return null
 
     // check user 
 const isExist = await dbConnect(collections.USERS).findOne({email: payload.email})
-if(isExist) return null
+if (isExist) {
+  return { success: false, message: "USER_EXISTS" };
+}
 // create user 
 const newUser = {
     providerId: "credentials",
@@ -22,7 +24,7 @@ const newUser = {
 
     // insert user 
     const result = await dbConnect(collections.USERS).insertOne(newUser)
-    if(result.acknowledged){
+    if(!result.acknowledged){
         return {
             ...result, insertedId: result.insertedId.toString(),
         }

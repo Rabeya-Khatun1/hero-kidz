@@ -23,6 +23,22 @@ const handleSubmit = async (e)=>{
     e.preventDefault();
 
     const result = await postUsers(form)
+    if (!result) {
+        alert("Registration failed. Please try again.")
+        return
+    }
+
+     if (!result.success) {
+    if (result.message === "USER_EXISTS") {
+      alert("এই ইমেইল দিয়ে আগেই একাউন্ট আছে ❌");
+      return;
+    }
+
+    alert("Registration failed. Try again.");
+    return;
+  }
+
+
     if(result.acknowledged){
         alert("Registration successful. Please login.")
         router.push('/login')

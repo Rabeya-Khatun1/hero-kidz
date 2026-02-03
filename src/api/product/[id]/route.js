@@ -9,5 +9,5 @@ if( id.length != 24){
 }
 const query = {_id: new ObjectId(id)};
 const product = await dbConnect(collections.TOYS).findOne(query);
-return product || null
+return {...product, _id: product._id.toString()} || null
 }

@@ -102,7 +102,7 @@ const {id} = await params;
           ))}
         </ul>
 
-       <AddToCart></AddToCart>
+       <AddToCart product={product}></AddToCart>
       </div>
 
 </div>

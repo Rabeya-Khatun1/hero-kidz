@@ -1,32 +1,48 @@
 "use server"
 import bcrypt from "bcryptjs"
-import { collections, dbConnect } from "@/app/lib/dbConnect"
+import { collections,dbConnect } from "@/app/lib/dbConnect"
 
-export const postUsers = async (payload)=>{
-   const {email, password, name}=  payload
-   
-    // check payload 
+export const postUsers = async (payload) => {
+  const { email, password, name } = payload;
+  if (!email || !password) return null;
 
-if(!email || !password)    return null
+  const usersCollection = await dbConnect(collections.USERS);
 
+  const isExist = await usersCollection.findOne({ email });
+  if (isExist) {
+    return { success: false, message: "USER_EXISTS" };
+  }
 
-    // check user 
-const isExist = await dbConnect(collections.USERS).findOne({email: payload.email})
-if (isExist) {
-  return { success: false, message: "USER_EXISTS" };
-}
-// create user 
-const newUser = {
+  const newUser = {
     providerId: "credentials",
-    name, email, password: await bcrypt.hash(password, 14),
-    role: "user"  
+    name,
+    email,
+    password: await bcrypt.hash(password, 14),
+    role: "user",
+  };
+
+  const result = await usersCollection.insertOne(newUser);
+
+  return {
+    success: true,
+    insertedId: result.insertedId.toString(),
+  };
+};
+
+export const loginUser = async (payload)=>{
+    const {email, password} = payload
+
+    if(!email || !password) return null;
+    
+    const user = await dbConnect(collections.USERS).findOne({email})
+
+if(!user ) return null;
+
+const isMatched = await bcrypt.compare(email, password )
+if(isMatched) {
+    return user;
+} else{
+    return null;
 }
 
-    // insert user 
-    const result = await dbConnect(collections.USERS).insertOne(newUser)
-    if(!result.acknowledged){
-        return {
-            ...result, insertedId: result.insertedId.toString(),
-        }
-    }
 }

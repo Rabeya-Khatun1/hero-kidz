@@ -1,3 +1,4 @@
+import { loginUser } from "@/api/auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 
@@ -11,10 +12,9 @@ export const authOptions = {
     password:{label: "Password", type: "password", placeholder: "****"}
   },
   async authorize(credentials, req){
+const user = await loginUser(credentials);
+return user ? user : null
 
-    console.log(credentials)
-
-    return null
   }
 })
   ],

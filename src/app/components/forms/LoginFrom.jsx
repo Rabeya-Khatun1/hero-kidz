@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 const LoginFrom = () => {
 
+    const router = useRouter();
     const [form , setForm] = useState({
        
         email: "",
@@ -17,7 +20,14 @@ setForm({...form, [e.target.name]:e.target.value})
 
 const handleSubmit = async (e)=>{
     e.preventDefault();
-    signIn("credentials", {...form, redirect: false})
+   const result = await signIn("credentials", {email:form.email, password: email.password, redirect: false})
+   if(!result.ok){
+    Swal.fire("error", "Email password not matched", "error")
+   } else{
+        Swal.fire("success", "Login successful", "success")
+        router.push("/")
+   }
+
 }
 
     return (
